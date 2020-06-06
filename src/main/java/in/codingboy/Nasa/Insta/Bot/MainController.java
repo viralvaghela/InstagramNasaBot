@@ -59,7 +59,6 @@ public class MainController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 //save image from url to image file
                 FileUtils.copyURLToFile(
                         new URL(imageurl), //save on the desktop... and
@@ -74,7 +73,7 @@ public class MainController {
                     //upload a post to instagram
                     instagram.sendRequest(new InstagramUploadPhotoRequest(new File("images\\img1.jpg"),explanation+"\n\n"+date+"\n"+hashtags));
                     countpost++;
-                    Thread.sleep(30000); //sleep for 1 day == 24 hours == 86,400,000 ms
+                    Thread.sleep(86400000); //sleep for 1 day == 24 hours == 86,400,000 ms
                 }
                 else {
                     System.out.println("Post is already uploaded");
@@ -87,15 +86,13 @@ public class MainController {
                 getData();
             }
         }
-
     }
-
     private void loginToInstagram() {
         try {
             instagram = Instagram4j.builder().username("codingboybot").password("7109@Viral.").build();
             instagram.setup();
             instagram.login();
-            System.out.println("login hua");
+            System.out.println("login ho gya bro!!!!");
         } catch (IOException e) {
             e.printStackTrace();
         }
