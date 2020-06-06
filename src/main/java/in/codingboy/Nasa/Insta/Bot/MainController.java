@@ -82,8 +82,6 @@ public class MainController {
             }catch (Exception e)
             {
                 e.printStackTrace();
-                //if it fails to upload try again
-                getData();
             }
         }
     }
