@@ -5,7 +5,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import org.apache.commons.io.FileUtils;
 import org.brunocvcunha.instagram4j.Instagram4j;
+import org.brunocvcunha.instagram4j.requests.InstagramSearchUsernameRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramUploadPhotoRequest;
+import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResult;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,8 @@ public class MainController {
     String date="";
     String explanation="";
     String imageurl="";
+    int countpost=0;
+
     String hashtags ="#nasa #space #spacex sun #astronomy #mars #moon #earth #programming #API #planets #universe #astronaut #astronaut #physics";
 
     public final String MYURL = "https://api.nasa.gov/planetary/apod?api_key=VCPmjAZa16rXbj2TodBoTnBLJ2Z6FfPZQE4oYPa4";
@@ -31,7 +35,6 @@ public class MainController {
         getData();
         return "index";
     }
-
     private void getData() {
 
         while (true) {
@@ -64,9 +67,19 @@ public class MainController {
                         30000,
                         1000000);
 
-                //upload a post to instagram
-                instagram.sendRequest(new InstagramUploadPhotoRequest(new File("images\\img1.jpg"),explanation+"\n\n"+date+"\n"+hashtags));
-                Thread.sleep(30000);
+                //check countpost and total number of post on the feed..if countpost<total post then upload
+                InstagramSearchUsernameResult userResult = instagram.sendRequest(new InstagramSearchUsernameRequest("codingboybot"));
+                if(!(countpost>userResult.getUser().geo_media_count))
+                {
+                    //upload a post to instagram
+                    instagram.sendRequest(new InstagramUploadPhotoRequest(new File("images\\img1.jpg"),explanation+"\n\n"+date+"\n"+hashtags));
+                    countpost++;
+                    Thread.sleep(30000); //sleep for 1 day == 24 hours == 86,400,000 ms
+                }
+                else {
+                    System.out.println("Post is already uploaded");
+                }
+
             }catch (Exception e)
             {
                 e.printStackTrace();
