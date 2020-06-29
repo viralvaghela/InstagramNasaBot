@@ -88,7 +88,7 @@ public class MainController {
     }
     private void loginToInstagram() {
         try {
-            instagram = Instagram4j.builder().username("codingboybot").password("7109@Viral.").build();
+            instagram = Instagram4j.builder().username("USERNAME").password("PASSWORD").build();
             instagram.setup();
             instagram.login();
             System.out.println("login ho gya bro!!!!");
